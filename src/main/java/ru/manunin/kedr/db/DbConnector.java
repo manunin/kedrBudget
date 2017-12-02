@@ -6,7 +6,8 @@ package ru.manunin.kedr.db;
 public class DbConnector {
 
     private void connect(){
-        System.out.println("Connectioin procedure");
+
+
         System.out.println("Connectioin procedure");
     }
 
