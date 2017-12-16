@@ -10,6 +10,8 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 
 /**
  * Created by Александр on 18.11.2017.
@@ -24,10 +26,29 @@ public class Main {
     private static BudgetObjectList<Customer> customers = new BudgetObjectList<Customer>();
     private static BudgetObjectList<Place> places = new BudgetObjectList<Place>();
     private static BudgetObjectList<Group> groups = new BudgetObjectList<Group>();
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
 
-        DbConnector.connect("root", "EfktO5rspTgILWKfDE9w");
+        String x;
+        String y;
+
+
+        while (true) {
+
+            System.out.println("Input connection data");
+            x = scanner.nextLine();
+            y = scanner.nextLine();
+
+            if (DbConnector.connect(x, y) != null) break;
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         DbConnector.close();
 
         try {
