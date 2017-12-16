@@ -3,6 +3,7 @@ package ru.manunin.kedr.core;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import ru.manunin.kedr.db.DbConnector;
 import ru.manunin.kedr.db.model.*;
 
 import java.io.FileInputStream;
@@ -16,18 +17,21 @@ import java.util.ArrayList;
 public class Main {
 
     public static FileReader fileReader;
-    public static FileInputStream fileInputStream;
-    public static Workbook workbook;
-    public static ArrayList<Sale> sales = null;
-    public static BudgetObjectList<Account> accounts = new BudgetObjectList<Account>();
-    public static BudgetObjectList<Customer> customers = new BudgetObjectList<Customer>();
-    public static BudgetObjectList<Place> places = new BudgetObjectList<Place>();
-    public static BudgetObjectList<Group> groups = new BudgetObjectList<Group>();
+    private static FileInputStream fileInputStream;
+    private static Workbook workbook;
+    private static ArrayList<Sale> sales = null;
+    private static BudgetObjectList<Account> accounts = new BudgetObjectList<Account>();
+    private static BudgetObjectList<Customer> customers = new BudgetObjectList<Customer>();
+    private static BudgetObjectList<Place> places = new BudgetObjectList<Place>();
+    private static BudgetObjectList<Group> groups = new BudgetObjectList<Group>();
 
     public static void main(String[] args) {
 
+        DbConnector.connect("root", "EfktO5rspTgILWKfDE9w");
+        DbConnector.close();
+
         try {
-            fileInputStream = new FileInputStream("Budget.xlsx");
+            fileInputStream = new FileInputStream("c:/work/Budget.xlsx");
             workbook = new XSSFWorkbook(fileInputStream);
         } catch (IOException e) {
             e.printStackTrace();
