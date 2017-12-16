@@ -9,6 +9,7 @@ import ru.manunin.kedr.db.model.*;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,6 +28,7 @@ public class Main {
     private static BudgetObjectList<Place> places = new BudgetObjectList<Place>();
     private static BudgetObjectList<Group> groups = new BudgetObjectList<Group>();
     private static Scanner scanner = new Scanner(System.in);
+    private static Connection connection = null;
 
     public static void main(String[] args) {
 
@@ -40,7 +42,8 @@ public class Main {
             x = scanner.nextLine();
             y = scanner.nextLine();
 
-            if (DbConnector.connect(x, y) != null) break;
+            connection = DbConnector.connect(x, y);
+            if (connection != null) break;
 
             try {
                 Thread.sleep(1000);
@@ -49,7 +52,6 @@ public class Main {
             }
         }
 
-        DbConnector.close();
 
         try {
             fileInputStream = new FileInputStream("c:/work/Budget.xlsx");
@@ -78,19 +80,25 @@ public class Main {
 
         }
 
+        for (Account a : accounts) {
+            a.save(connection);
+        }
+
         //print sales by group
 
-        for (Group group : groups) {
+        for (Account account : accounts) {
 
-            System.out.println("Группа:" + '\t' + group.getName());
+            System.out.println("Счет:" + '\t' + account.getName());
 
-            for (Sale sale : group.getSaleList()) {
+            for (Sale sale : account.getSaleList()) {
 
                 System.out.println("\t\t" + "Продажа " + sale.getDate() + '\t' + customers.getById(sale.getCustomerId()).getName() + '\t' + sale.getSum());
 
             }
 
         }
+
+        DbConnector.close();
 
     }
 

@@ -11,18 +11,18 @@ public class Sale {
     private Date date;
     private Double sum;
     private String notes;
-    private UUID saleId;
+    private UUID saleUUID;
     private UUID accountId;
     private UUID customerId;
     private UUID groupId;
     private UUID placeId;
 
-    public UUID getSaleId() {
-        return saleId;
+    public UUID getSaleUUID() {
+        return saleUUID;
     }
 
-    public void setSaleId(UUID saleId) {
-        this.saleId = saleId;
+    public void setSaleUUID(UUID saleUUID) {
+        this.saleUUID = saleUUID;
     }
 
     public UUID getAccountId() {
@@ -58,7 +58,7 @@ public class Sale {
     }
 
     public Sale() {
-        this.saleId = UUID.randomUUID();
+        this.saleUUID = UUID.randomUUID();
     }
 
     public Date getDate() {

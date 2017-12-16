@@ -19,7 +19,7 @@ public class BudgetObjectList<T extends BudgetObject> extends ArrayList<T> {
 
     public T getByName(String name) {
         for (T element : this) {
-            if (element.getName() == name)
+            if (element.getName().equals(name))
                 return element;
         }
         return null;

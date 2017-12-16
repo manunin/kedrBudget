@@ -1,7 +1,11 @@
 package ru.manunin.kedr.db.model;
 
+import com.sun.scenario.effect.impl.prism.PrImage;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -9,19 +13,22 @@ import java.util.UUID;
  */
 public class Account implements BudgetObject {
 
+    private static final String TABLE_NAME = "account";
+    private static final String UUID_COLUMN = "account_uuid";
+    private static final String NAME_COLUMN = "account_name";
 
     private String accountName;
-    private UUID accountId;
+    private UUID accountUUID;
+    private ArrayList<Sale> saleList = new ArrayList<Sale>();
 
     public UUID getUUID() {
-        return accountId;
+        return accountUUID;
     }
 
     public Account() {
-        this.accountId = UUID.randomUUID();
+        this.accountUUID = UUID.randomUUID();
     }
 
-    private ArrayList<Sale> saleList = new ArrayList<Sale>();
 
     public ArrayList<Sale> getSaleList() {
         return saleList;
@@ -38,4 +45,35 @@ public class Account implements BudgetObject {
     public String getName() {
         return accountName;
     }
+
+    public void save(Connection connection) {
+
+        PreparedStatement stat = null;
+        String stringUUID = accountUUID.toString().replaceAll("-","");
+        String insertSql = "INSERT INTO " + TABLE_NAME + "(" +
+                UUID_COLUMN +
+                "," + NAME_COLUMN +
+                ") values(?, ?);";
+
+        try {
+            stat = connection.prepareStatement(insertSql);
+            stat.setString(1, stringUUID);
+            stat.setString(2, accountName);
+            stat.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error of connecting " + e.getMessage());
+            System.err.println("Error code " + e.getErrorCode());
+        } finally {
+            try {
+                stat.close();
+            } catch (SQLException e) {
+                System.err.println("Error of connecting " + e.getMessage());
+                System.err.println("Error code " + e.getErrorCode());
+            }
+        }
+
+
+    }
+
+
 }

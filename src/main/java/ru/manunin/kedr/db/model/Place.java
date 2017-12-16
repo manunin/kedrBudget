@@ -9,14 +9,14 @@ import java.util.UUID;
 public class Place implements BudgetObject {
 
     private String name;
-    private UUID placeId;
+    private UUID placeUUID;
 
     public Place() {
-        this.placeId = UUID.randomUUID();
+        this.placeUUID = UUID.randomUUID();
     }
 
     public UUID getUUID() {
-        return placeId;
+        return placeUUID;
     }
 
     private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();

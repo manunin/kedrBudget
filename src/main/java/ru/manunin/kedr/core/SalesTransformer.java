@@ -14,7 +14,7 @@ public class SalesTransformer {
 
     private static final String SALES_PAGES = "Sales_Page";
 
-    public static ArrayList<Sale> tranfer(Workbook workbook, BudgetObjectList<Account> account
+    private static ArrayList<Sale> tranfer(Workbook workbook, BudgetObjectList<Account> accountBudgetObjectList
             , BudgetObjectList<Customer> customerBudgetObjectList
             , BudgetObjectList<Group> groupBudgetObjectList
             , BudgetObjectList<Place> placeBudgetObjectList) throws Exception {
@@ -49,8 +49,8 @@ public class SalesTransformer {
                                         sale.setSum(cell.getNumericCellValue());
                                         break;
                                     case Account:
-                                        account.addSaleToListElement(cell.getStringCellValue(), sale, Account.class);
-                                        sale.setAccountId(account.getByName(cell.getStringCellValue()).getUUID());
+                                        accountBudgetObjectList.addSaleToListElement(cell.getStringCellValue(), sale, Account.class);
+                                        sale.setAccountId(accountBudgetObjectList.getByName(cell.getStringCellValue()).getUUID());
                                         break;
                                     case Group:
                                         groupBudgetObjectList.addSaleToListElement(cell.getStringCellValue(), sale, Group.class);

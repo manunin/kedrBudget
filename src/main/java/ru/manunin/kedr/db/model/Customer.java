@@ -1,6 +1,5 @@
 package ru.manunin.kedr.db.model;
 
-import java.awt.peer.ChoicePeer;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -10,16 +9,16 @@ import java.util.UUID;
 public class Customer implements BudgetObject {
 
     private String customerName;
-    private UUID customerId;
+    private UUID customerUUID;
 
     public UUID getUUID() {
-        return customerId;
+        return customerUUID;
     }
 
     private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();
 
     public Customer() {
-        this.customerId = UUID.randomUUID();
+        this.customerUUID = UUID.randomUUID();
     }
 
     public String getName() {
