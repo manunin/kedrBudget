@@ -11,14 +11,14 @@ public class Group implements BudgetObject {
 
     private String name;
     private Date date;
-    private UUID groupId;
+    private UUID groupUUID;
 
     public UUID getUUID() {
-        return groupId;
+        return groupUUID;
     }
 
     public Group() {
-        this.groupId = UUID.randomUUID();
+        this.groupUUID = UUID.randomUUID();
     }
 
     private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();
