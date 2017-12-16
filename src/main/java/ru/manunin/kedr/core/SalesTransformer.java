@@ -14,7 +14,7 @@ public class SalesTransformer {
 
     private static final String SALES_PAGES = "Sales_Page";
 
-    private static ArrayList<Sale> tranfer(Workbook workbook, BudgetObjectList<Account> accountBudgetObjectList
+    public static ArrayList<Sale> tranfer(Workbook workbook, BudgetObjectList<Account> accountBudgetObjectList
             , BudgetObjectList<Customer> customerBudgetObjectList
             , BudgetObjectList<Group> groupBudgetObjectList
             , BudgetObjectList<Place> placeBudgetObjectList) throws Exception {
