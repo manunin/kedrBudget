@@ -1,5 +1,6 @@
 package ru.manunin.kedr.db.model;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -15,6 +16,10 @@ public class Group implements BudgetObject {
 
     public UUID getUUID() {
         return groupUUID;
+    }
+
+    public void insert(Connection connection) {
+
     }
 
     public Group() {

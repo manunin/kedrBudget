@@ -1,5 +1,6 @@
 package ru.manunin.kedr.db.model;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -10,10 +11,12 @@ public interface BudgetObject {
 
     String getName();
 
-    public ArrayList<Sale> getSaleList();
+    ArrayList<Sale> getSaleList();
 
-    public void setName(String name);
+    void setName(String name);
 
-    public UUID getUUID();
+    UUID getUUID();
+
+    void insert(Connection connection);
 
 }

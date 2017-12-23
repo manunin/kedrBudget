@@ -81,7 +81,7 @@ public class Main {
         }
 
         for (Account a : accounts) {
-            a.save(connection);
+            a.insert(connection);
         }
 
         //print sales by group

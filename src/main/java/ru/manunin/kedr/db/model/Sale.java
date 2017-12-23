@@ -85,4 +85,6 @@ public class Sale {
         this.notes = notes;
     }
 
+
+
 }

@@ -46,7 +46,7 @@ public class Account implements BudgetObject {
         return accountName;
     }
 
-    public void save(Connection connection) {
+    public void insert(Connection connection) {
 
         PreparedStatement stat = null;
         String stringUUID = accountUUID.toString().replaceAll("-","");
@@ -61,17 +61,16 @@ public class Account implements BudgetObject {
             stat.setString(2, accountName);
             stat.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error of connecting " + e.getMessage());
+            System.err.println("Error of updating " + e.getMessage());
             System.err.println("Error code " + e.getErrorCode());
         } finally {
             try {
                 stat.close();
             } catch (SQLException e) {
-                System.err.println("Error of connecting " + e.getMessage());
+                System.err.println("Error of closing statement " + e.getMessage());
                 System.err.println("Error code " + e.getErrorCode());
             }
         }
-
 
     }
 
