@@ -1,5 +1,8 @@
 package ru.manunin.kedr.db.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -8,53 +11,61 @@ import java.util.UUID;
  */
 public class Sale {
 
+    private final String TABLE_NAME = "sale";
+    private final String UUID_COLUMN = "sale_uuid";
+    private final String SALE_DATE = "sale_date";
+    private final String AMOUND = "amount";
+    private final String ACCOUNT_ID = "account_id";
+    private final String GROUP_ID = "group_id";
+    private final String PLACE_ID = "place_id";
+    private final String NOTES = "notes";
+    private final String CUSTOMER_ID = "customer_id";
+
+
     private Date date;
     private Double sum;
     private String notes;
     private UUID saleUUID;
-    private UUID accountId;
-    private UUID customerId;
-    private UUID groupId;
-    private UUID placeId;
+    private int accountId;
+    private int customerId;
 
-    public UUID getSaleUUID() {
-        return saleUUID;
-    }
-
-    public void setSaleUUID(UUID saleUUID) {
-        this.saleUUID = saleUUID;
-    }
-
-    public UUID getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(UUID accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 
-    public UUID getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(UUID customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 
-    public UUID getGroupId() {
+    public int getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(UUID groupId) {
+    public void setGroupId(int groupId) {
         this.groupId = groupId;
     }
 
-    public UUID getPlaceId() {
+    public int getPlaceId() {
         return placeId;
     }
 
-    public void setPlaceId(UUID placeId) {
+    public void setPlaceId(int placeId) {
         this.placeId = placeId;
+    }
+
+    private int groupId;
+    private int placeId;
+
+    public UUID getSaleUUID() {
+        return saleUUID;
     }
 
     public Sale() {
@@ -85,6 +96,44 @@ public class Sale {
         this.notes = notes;
     }
 
+    public void insert(Connection connection) {
 
+        PreparedStatement stat = null;
+        String stringUUID = saleUUID.toString().replaceAll("-", "");
+        String insertSql = "INSERT INTO " + TABLE_NAME + "(" +
+                UUID_COLUMN +
+                "," + SALE_DATE +
+                "," + AMOUND +
+                "," + ACCOUNT_ID +
+                "," + GROUP_ID +
+                "," + PLACE_ID +
+                "," + NOTES +
+                "," + CUSTOMER_ID +
+                ") values(?,?,?,?,?,?,?,?);";
+
+        try {
+            stat = connection.prepareStatement(insertSql);
+            stat.setString(1, stringUUID);
+            stat.setDate(2, new java.sql.Date(date.getTime()));
+            stat.setDouble(3, sum);
+            stat.setInt(4, this.accountId);
+            stat.setInt(5, this.groupId);
+            stat.setInt(6,this.placeId);
+            stat.setString(7,this.notes);
+            stat.setInt(8,this.customerId);
+            stat.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error of updating " + e.getMessage());
+            System.err.println("Error code " + e.getErrorCode());
+        } finally {
+            try {
+                stat.close();
+            } catch (SQLException e) {
+                System.err.println("Error of closing statement " + e.getMessage());
+                System.err.println("Error code " + e.getErrorCode());
+            }
+        }
+
+    }
 
 }

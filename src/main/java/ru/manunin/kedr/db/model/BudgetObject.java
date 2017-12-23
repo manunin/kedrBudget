@@ -17,6 +17,8 @@ public interface BudgetObject {
 
     UUID getUUID();
 
-    void insert(Connection connection);
+    int getID();
+
+//    int insert(Connection connection);
 
 }

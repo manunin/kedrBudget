@@ -1,19 +1,11 @@
 package ru.manunin.kedr.db.model;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by Александр on 25.11.2017.
- */
+public class BudgetObjectListTemp<T extends BudgetObjectTamplate> extends ArrayList<T> {
 
-public class BudgetObjectList<T extends BudgetObject> extends ArrayList<T> {
-
-    //private ArrayList<T> list;
-
-
-    public BudgetObjectList() {
+    public BudgetObjectListTemp() {
         super();
     }
 
@@ -27,7 +19,7 @@ public class BudgetObjectList<T extends BudgetObject> extends ArrayList<T> {
 
     public T getById(int id) {
         for (T element : this) {
-            if (element.getID() == id)
+            if (element.getId() == id)
                 return element;
         }
         return null;
@@ -35,15 +27,14 @@ public class BudgetObjectList<T extends BudgetObject> extends ArrayList<T> {
 
     public void addSaleToListElement(String elementName, Sale sale, Class<T> cls) throws Exception {
         if (this.getByName(elementName) == null) {
-            T temp = cls.newInstance();
-            temp.setName(elementName);
+            T temp = cls.getDeclaredConstructor(String.class).newInstance(elementName);
+//            temp.setName(elementName);
             temp.getSaleList().add(sale);
             this.add(temp);
         } else {
             getByName(elementName).getSaleList().add(sale);
         }
     }
-
 
 
 }

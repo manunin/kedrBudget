@@ -15,7 +15,7 @@ public class DbConnector {
     private static String dbName = "kedrbudget";
 
 
-    private static Connection connection;
+    public static Connection connection;
 
 
     private static void driverRegister() {

@@ -18,9 +18,10 @@ public class Group implements BudgetObject {
         return groupUUID;
     }
 
-    public void insert(Connection connection) {
-
+    public int getID() {
+        return 0;
     }
+
 
     public Group() {
         this.groupUUID = UUID.randomUUID();

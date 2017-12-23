@@ -14,7 +14,7 @@ public class SalesTransformer {
 
     private static final String SALES_PAGES = "Sales_Page";
 
-    public static ArrayList<Sale> tranfer(Workbook workbook, BudgetObjectList<Account> accountBudgetObjectList
+    public static ArrayList<Sale> tranfer(Workbook workbook, BudgetObjectListTemp<Account> accountBudgetObjectList
             , BudgetObjectList<Customer> customerBudgetObjectList
             , BudgetObjectList<Group> groupBudgetObjectList
             , BudgetObjectList<Place> placeBudgetObjectList) throws Exception {
@@ -43,25 +43,25 @@ public class SalesTransformer {
                                         break;
                                     case Customer:
                                         customerBudgetObjectList.addSaleToListElement(cell.getStringCellValue(), sale, Customer.class);
-                                        sale.setCustomerId(customerBudgetObjectList.getByName(cell.getStringCellValue()).getUUID());
+                                        sale.setCustomerId(customerBudgetObjectList.getByName(cell.getStringCellValue()).getID());
                                         break;
                                     case Sum:
                                         sale.setSum(cell.getNumericCellValue());
                                         break;
                                     case Account:
                                         accountBudgetObjectList.addSaleToListElement(cell.getStringCellValue(), sale, Account.class);
-                                        sale.setAccountId(accountBudgetObjectList.getByName(cell.getStringCellValue()).getUUID());
+                                        sale.setAccountId(accountBudgetObjectList.getByName(cell.getStringCellValue()).getId());
                                         break;
                                     case Group:
                                         groupBudgetObjectList.addSaleToListElement(cell.getStringCellValue(), sale, Group.class);
-                                        sale.setGroupId(groupBudgetObjectList.getByName(cell.getStringCellValue()).getUUID());
+                                        sale.setGroupId(groupBudgetObjectList.getByName(cell.getStringCellValue()).getID());
                                         break;
                                     case Notes:
                                         sale.setNotes(cell.getStringCellValue());
                                         break;
                                     case Place:
                                         placeBudgetObjectList.addSaleToListElement(cell.getStringCellValue(), sale, Place.class);
-                                        sale.setPlaceId(placeBudgetObjectList.getByName(cell.getStringCellValue()).getUUID());
+                                        sale.setPlaceId(placeBudgetObjectList.getByName(cell.getStringCellValue()).getID());
                                         break;
                                     default:
                                         break;

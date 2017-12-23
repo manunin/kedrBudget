@@ -23,7 +23,7 @@ public class Main {
     private static FileInputStream fileInputStream;
     private static Workbook workbook;
     private static ArrayList<Sale> sales = null;
-    private static BudgetObjectList<Account> accounts = new BudgetObjectList<Account>();
+    private static BudgetObjectListTemp<Account> accounts = new BudgetObjectListTemp<Account>();
     private static BudgetObjectList<Customer> customers = new BudgetObjectList<Customer>();
     private static BudgetObjectList<Place> places = new BudgetObjectList<Place>();
     private static BudgetObjectList<Group> groups = new BudgetObjectList<Group>();
@@ -79,9 +79,9 @@ public class Main {
             System.out.println("Test");
 
         }
-
-        for (Account a : accounts) {
-            a.insert(connection);
+//
+        for (Sale sale : sales) {
+            sale.insert(DbConnector.connection);
         }
 
         //print sales by group

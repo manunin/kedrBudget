@@ -16,9 +16,10 @@ public class Customer implements BudgetObject {
         return customerUUID;
     }
 
-    public void insert(Connection connection) {
-
+    public int getID() {
+        return 0;
     }
+
 
     private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();
 
