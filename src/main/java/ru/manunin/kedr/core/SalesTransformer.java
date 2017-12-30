@@ -16,16 +16,13 @@ public class SalesTransformer {
 
     public static ArrayList<Sale> tranfer(Workbook workbook, BudgetObjectListTemp<Account> accountBudgetObjectList
             , BudgetObjectList<Customer> customerBudgetObjectList
-            , BudgetObjectList<Group> groupBudgetObjectList
+            , BudgetObjectListTemp<Group> groupBudgetObjectList
             , BudgetObjectList<Place> placeBudgetObjectList) throws Exception {
 
         ArrayList<Sale> saleList = new ArrayList<Sale>();
         String[] salesSheets = Property.getProperty(SALES_PAGES).split(",");
-        HashMap<Integer, String> columnMap = null;
-        Account accountTemp = null;
-        Customer customerTemp = null;
-        Place placeTemp = null;
-        Group groupTemp = null;
+        HashMap<Integer, String> columnMap;
+
 
         for (String page : salesSheets) {
             Sheet sheet = workbook.getSheet(page);
@@ -54,7 +51,7 @@ public class SalesTransformer {
                                         break;
                                     case Group:
                                         groupBudgetObjectList.addSaleToListElement(cell.getStringCellValue(), sale, Group.class);
-                                        sale.setGroupId(groupBudgetObjectList.getByName(cell.getStringCellValue()).getID());
+                                        sale.setGroupId(groupBudgetObjectList.getByName(cell.getStringCellValue()).getId());
                                         break;
                                     case Notes:
                                         sale.setNotes(cell.getStringCellValue());

@@ -28,13 +28,11 @@ public class BudgetObjectListTemp<T extends BudgetObjectTamplate> extends ArrayL
     public void addSaleToListElement(String elementName, Sale sale, Class<T> cls) throws Exception {
         if (this.getByName(elementName) == null) {
             T temp = cls.getDeclaredConstructor(String.class).newInstance(elementName);
-//            temp.setName(elementName);
             temp.getSaleList().add(sale);
             this.add(temp);
         } else {
             getByName(elementName).getSaleList().add(sale);
         }
     }
-
 
 }

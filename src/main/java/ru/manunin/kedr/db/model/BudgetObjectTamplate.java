@@ -32,42 +32,29 @@ abstract public class BudgetObjectTamplate {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public UUID getUuid() {
         return uuid;
     }
-
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
-
-//    public abstract String getName();
-
     public abstract ArrayList<Sale> getSaleList();
 
-//    public abstract void setName(String name);
-//
-//    public abstract UUID getUUID();
-//
-//    public abstract int getID();
 
     private void insert(Connection connection) {
 
         PreparedStatement stat = null;
         String stringUUID = uuid.toString().replaceAll("-", "");
-        String insertSql = "INSERT INTO " + TABLE_NAME + "(" +
+        String insertSql = "INSERT INTO " + TABLE_NAME + " (" +
                 UUID_COLUMN +
                 "," + NAME_COLUMN +
                 ") values(?, ?);";
@@ -88,10 +75,10 @@ abstract public class BudgetObjectTamplate {
                 System.err.println("Error code " + e.getErrorCode());
             }
         }
-        id = select(connection, uuid);
+        id = selectId(connection, uuid);
     }
 
-    private int select(Connection connection, UUID accountUUID) {
+    private int selectId(Connection connection, UUID accountUUID) {
 
         int id = 0;
         ResultSet rs;

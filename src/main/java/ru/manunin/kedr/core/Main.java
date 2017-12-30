@@ -26,7 +26,7 @@ public class Main {
     private static BudgetObjectListTemp<Account> accounts = new BudgetObjectListTemp<Account>();
     private static BudgetObjectList<Customer> customers = new BudgetObjectList<Customer>();
     private static BudgetObjectList<Place> places = new BudgetObjectList<Place>();
-    private static BudgetObjectList<Group> groups = new BudgetObjectList<Group>();
+    private static BudgetObjectListTemp<Group> groups = new BudgetObjectListTemp<Group>();
     private static Scanner scanner = new Scanner(System.in);
     private static Connection connection = null;
 
