@@ -24,8 +24,8 @@ public class Main {
     private static Workbook workbook;
     private static ArrayList<Sale> sales = null;
     private static BudgetObjectListTemp<Account> accounts = new BudgetObjectListTemp<Account>();
-    private static BudgetObjectList<Customer> customers = new BudgetObjectList<Customer>();
-    private static BudgetObjectList<Place> places = new BudgetObjectList<Place>();
+    private static BudgetObjectListTemp<Customer> customers = new BudgetObjectListTemp<Customer>();
+    private static BudgetObjectListTemp<Place> places = new BudgetObjectListTemp<Place>();
     private static BudgetObjectListTemp<Group> groups = new BudgetObjectListTemp<Group>();
     private static Scanner scanner = new Scanner(System.in);
     private static Connection connection = null;

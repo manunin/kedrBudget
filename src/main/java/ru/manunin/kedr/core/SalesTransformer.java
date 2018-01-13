@@ -15,9 +15,9 @@ public class SalesTransformer {
     private static final String SALES_PAGES = "Sales_Page";
 
     public static ArrayList<Sale> tranfer(Workbook workbook, BudgetObjectListTemp<Account> accountBudgetObjectList
-            , BudgetObjectList<Customer> customerBudgetObjectList
+            , BudgetObjectListTemp<Customer> customerBudgetObjectList
             , BudgetObjectListTemp<Group> groupBudgetObjectList
-            , BudgetObjectList<Place> placeBudgetObjectList) throws Exception {
+            , BudgetObjectListTemp<Place> placeBudgetObjectList) throws Exception {
 
         ArrayList<Sale> saleList = new ArrayList<Sale>();
         String[] salesSheets = Property.getProperty(SALES_PAGES).split(",");
@@ -40,7 +40,7 @@ public class SalesTransformer {
                                         break;
                                     case Customer:
                                         customerBudgetObjectList.addSaleToListElement(cell.getStringCellValue(), sale, Customer.class);
-                                        sale.setCustomerId(customerBudgetObjectList.getByName(cell.getStringCellValue()).getID());
+                                        sale.setCustomerId(customerBudgetObjectList.getByName(cell.getStringCellValue()).getId());
                                         break;
                                     case Sum:
                                         sale.setSum(cell.getNumericCellValue());
@@ -58,7 +58,7 @@ public class SalesTransformer {
                                         break;
                                     case Place:
                                         placeBudgetObjectList.addSaleToListElement(cell.getStringCellValue(), sale, Place.class);
-                                        sale.setPlaceId(placeBudgetObjectList.getByName(cell.getStringCellValue()).getID());
+                                        sale.setPlaceId(placeBudgetObjectList.getByName(cell.getStringCellValue()).getId());
                                         break;
                                     default:
                                         break;
