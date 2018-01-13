@@ -22,6 +22,7 @@ public class Sale {
     private final String CUSTOMER_ID = "customer_id";
 
 
+    private int id;
     private Date date;
     private Double sum;
     private String notes;
@@ -31,6 +32,24 @@ public class Sale {
 
     public int getAccountId() {
         return accountId;
+    }
+
+
+    public Sale() {
+        this.saleUUID = UUID.randomUUID();
+    }
+
+
+    public Sale(int id, UUID saleUUID, Date date, Double sum, int accountId, int groupId, int placeId, String notes, int customerId) {
+        this.id = id;
+        this.date = date;
+        this.sum = sum;
+        this.notes = notes;
+        this.saleUUID = saleUUID;
+        this.accountId = accountId;
+        this.customerId = customerId;
+        this.groupId = groupId;
+        this.placeId = placeId;
     }
 
     public void setAccountId(int accountId) {
@@ -68,9 +87,6 @@ public class Sale {
         return saleUUID;
     }
 
-    public Sale() {
-        this.saleUUID = UUID.randomUUID();
-    }
 
     public Date getDate() {
         return date;
@@ -99,7 +115,7 @@ public class Sale {
     public void insert(Connection connection) {
 
         PreparedStatement stat = null;
-        String stringUUID = saleUUID.toString().replaceAll("-", "");
+        String stringUUID = saleUUID.toString();//.replaceAll("-", "");
         String insertSql = "INSERT INTO " + TABLE_NAME + "(" +
                 UUID_COLUMN +
                 "," + SALE_DATE +
@@ -118,9 +134,9 @@ public class Sale {
             stat.setDouble(3, sum);
             stat.setInt(4, this.accountId);
             stat.setInt(5, this.groupId);
-            stat.setInt(6,this.placeId);
-            stat.setString(7,this.notes);
-            stat.setInt(8,this.customerId);
+            stat.setInt(6, this.placeId);
+            stat.setString(7, this.notes);
+            stat.setInt(8, this.customerId);
             stat.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error of updating " + e.getMessage());

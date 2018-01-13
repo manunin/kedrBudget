@@ -22,7 +22,7 @@ public class Main {
     public static FileReader fileReader;
     private static FileInputStream fileInputStream;
     private static Workbook workbook;
-    private static ArrayList<Sale> sales = null;
+    private static SalesList<Sale> sales = null;
     private static BudgetObjectListTemp<Account> accounts = null;
     private static BudgetObjectListTemp<Customer> customers = null;
     private static BudgetObjectListTemp<Place> places = null;
@@ -74,16 +74,16 @@ public class Main {
         }
 
         //print all sales
-        if (sales.size() > 0) {
-            for (Sale sale : sales) {
-                System.out.println("Продажа " + sale.getDate() + '\t' + customers.getById(sale.getCustomerId()).getName() + '\t' + sale.getSum());
-            }
-        } else {
-
-            System.out.println("Errors've been detected  ");
-            System.out.println("Test");
-
-        }
+//        if (sales.size() > 0) {
+//            for (Sale sale : sales) {
+//                System.out.println("Продажа " + sale.getDate() + '\t' + customers.getById(sale.getCustomerId()).getName() + '\t' + sale.getSum());
+//            }
+//        } else {
+//
+//            System.out.println("Errors've been detected  ");
+//            System.out.println("Test");
+//
+//        }
 //
         for (Sale sale : sales) {
             sale.insert(DbConnector.connection);
@@ -91,17 +91,17 @@ public class Main {
 
         //print sales by group
 
-        for (Account account : accounts) {
-
-            System.out.println("Счет:" + '\t' + account.getName());
-
-            for (Sale sale : account.getSaleList()) {
-
-                System.out.println("\t\t" + "Продажа " + sale.getDate() + '\t' + customers.getById(sale.getCustomerId()).getName() + '\t' + sale.getSum());
-
-            }
-
-        }
+//        for (Account account : accounts) {
+//
+//            System.out.println("Счет:" + '\t' + account.getName());
+//
+//            for (Sale sale : account.getSaleList()) {
+//
+//                System.out.println("\t\t" + "Продажа " + sale.getDate() + '\t' + customers.getById(sale.getCustomerId()).getName() + '\t' + sale.getSum());
+//
+//            }
+//
+//        }
 
         DbConnector.close();
 

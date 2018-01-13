@@ -18,9 +18,5 @@ public class Place extends BudgetObjectTamplate {
         super(id, uuid, name);
     }
 
-    private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();
 
-    public ArrayList<Sale> getSaleList() {
-        return saleArrayList;
-    }
 }

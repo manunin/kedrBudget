@@ -15,9 +15,6 @@ import java.util.UUID;
 public class Account extends BudgetObjectTamplate {
 
 
-
-    private ArrayList<Sale> saleList = new ArrayList<Sale>();
-
     public Account(String accountName) {
         super(accountName, "account", "account_uuid", "account_name");
     }
@@ -26,12 +23,5 @@ public class Account extends BudgetObjectTamplate {
         super(id, uuid, name);
     }
 
-    public ArrayList<Sale> getSaleList() {
-        return saleList;
-    }
-
-//    public void setSaleList(ArrayList<Sale> saleList) {
-//        this.saleList = saleList;
-//    }
 
 }

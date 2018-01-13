@@ -14,12 +14,12 @@ public class SalesTransformer {
 
     private static final String SALES_PAGES = "Sales_Page";
 
-    public static ArrayList<Sale> tranfer(Workbook workbook, BudgetObjectListTemp<Account> accountBudgetObjectList
+    public static SalesList<Sale> tranfer(Workbook workbook, BudgetObjectListTemp<Account> accountBudgetObjectList
             , BudgetObjectListTemp<Customer> customerBudgetObjectList
             , BudgetObjectListTemp<Group> groupBudgetObjectList
             , BudgetObjectListTemp<Place> placeBudgetObjectList) throws Exception {
 
-        ArrayList<Sale> saleList = new ArrayList<Sale>();
+        SalesList<Sale> saleList = new SalesList<Sale>();
         String[] salesSheets = Property.getProperty(SALES_PAGES).split(",");
         HashMap<Integer, String> columnMap;
 
@@ -65,7 +65,9 @@ public class SalesTransformer {
                                 }
                             }
                         }
-                        saleList.add(sale);
+                        if (!saleList.isSaleExists(sale)) {
+                            saleList.add(sale);
+                        }
 
                     }
                 }

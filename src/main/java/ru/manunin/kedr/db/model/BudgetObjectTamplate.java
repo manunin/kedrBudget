@@ -18,6 +18,7 @@ abstract public class BudgetObjectTamplate {
     private int id;
     private String name;
     private UUID uuid;
+    private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();
 
     public BudgetObjectTamplate(String name, String tableName, String uuidColumn, String nameColumn) {
 
@@ -37,6 +38,10 @@ abstract public class BudgetObjectTamplate {
         this.TABLE_NAME = null;
         this.UUID_COLUMN = null;
         this.NAME_COLUMN = null;
+    }
+
+    public ArrayList<Sale> getSaleList() {
+        return saleArrayList;
     }
 
     public int getId() {
@@ -63,7 +68,6 @@ abstract public class BudgetObjectTamplate {
         this.uuid = uuid;
     }
 
-    public abstract ArrayList<Sale> getSaleList();
 
 
     private void insert(Connection connection) {
