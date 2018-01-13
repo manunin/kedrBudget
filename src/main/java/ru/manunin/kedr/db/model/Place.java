@@ -14,6 +14,10 @@ public class Place extends BudgetObjectTamplate {
         super(placeName, "place", "place_uuid", "place_name");
     }
 
+    public Place(Integer id, UUID uuid, String name){
+        super(id, uuid, name);
+    }
+
     private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();
 
     public ArrayList<Sale> getSaleList() {

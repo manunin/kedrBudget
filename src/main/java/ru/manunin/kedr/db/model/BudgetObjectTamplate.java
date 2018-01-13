@@ -29,31 +29,47 @@ abstract public class BudgetObjectTamplate {
         insert(DbConnector.connection);
     }
 
+    public BudgetObjectTamplate(Integer id, UUID uuid, String name) {
+
+        this.id = id;
+        this.name = name;
+        this.uuid = uuid;
+        this.TABLE_NAME = null;
+        this.UUID_COLUMN = null;
+        this.NAME_COLUMN = null;
+    }
+
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public UUID getUuid() {
         return uuid;
     }
+
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
+
     public abstract ArrayList<Sale> getSaleList();
 
 
     private void insert(Connection connection) {
 
         PreparedStatement stat = null;
-        String stringUUID = uuid.toString().replaceAll("-", "");
+        String stringUUID = uuid.toString();//.replaceAll("-", "");
         String insertSql = "INSERT INTO " + TABLE_NAME + " (" +
                 UUID_COLUMN +
                 "," + NAME_COLUMN +

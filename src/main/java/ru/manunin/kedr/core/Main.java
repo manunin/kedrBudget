@@ -23,10 +23,10 @@ public class Main {
     private static FileInputStream fileInputStream;
     private static Workbook workbook;
     private static ArrayList<Sale> sales = null;
-    private static BudgetObjectListTemp<Account> accounts = new BudgetObjectListTemp<Account>();
-    private static BudgetObjectListTemp<Customer> customers = new BudgetObjectListTemp<Customer>();
-    private static BudgetObjectListTemp<Place> places = new BudgetObjectListTemp<Place>();
-    private static BudgetObjectListTemp<Group> groups = new BudgetObjectListTemp<Group>();
+    private static BudgetObjectListTemp<Account> accounts = null;
+    private static BudgetObjectListTemp<Customer> customers = null;
+    private static BudgetObjectListTemp<Place> places = null;
+    private static BudgetObjectListTemp<Group> groups = null;
     private static Scanner scanner = new Scanner(System.in);
     private static Connection connection = null;
 
@@ -51,6 +51,11 @@ public class Main {
                 e.printStackTrace();
             }
         }
+
+        accounts = new BudgetObjectListTemp<Account>("account", Account.class);
+        customers = new BudgetObjectListTemp<Customer>("customer", Customer.class);
+        places = new BudgetObjectListTemp<Place>("place", Place.class);
+        groups = new BudgetObjectListTemp<Group>("groupTable", Group.class);
 
 
         try {

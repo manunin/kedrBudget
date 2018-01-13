@@ -17,8 +17,13 @@ public class Account extends BudgetObjectTamplate {
 
 
     private ArrayList<Sale> saleList = new ArrayList<Sale>();
+
     public Account(String accountName) {
         super(accountName, "account", "account_uuid", "account_name");
+    }
+
+    public Account(Integer id, UUID uuid, String name){
+        super(id, uuid, name);
     }
 
     public ArrayList<Sale> getSaleList() {

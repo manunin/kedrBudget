@@ -14,6 +14,10 @@ public class Customer extends BudgetObjectTamplate {
         super(customerName, "customer", "customer_uuid", "customer_name");
     }
 
+    public Customer(Integer id, UUID uuid, String name){
+        super(id, uuid, name);
+    }
+
     private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();
 
     public ArrayList<Sale> getSaleList() {

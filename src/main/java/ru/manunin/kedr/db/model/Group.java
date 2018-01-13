@@ -16,6 +16,10 @@ public class Group extends BudgetObjectTamplate {
         super(groupName, "groupTable", "group_uuid", "group_name");
     }
 
+    public Group(Integer id, UUID uuid, String name){
+        super(id, uuid, name);
+    }
+
     private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();
 
     public ArrayList<Sale> getSaleList() {
