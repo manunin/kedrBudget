@@ -7,38 +7,16 @@ import java.util.UUID;
 /**
  * Created by Александр on 25.11.2017.
  */
-public class Customer implements BudgetObject {
+public class Customer extends BudgetObjectTamplate {
 
-    private String customerName;
-    private UUID customerUUID;
-
-    public UUID getUUID() {
-        return customerUUID;
+    public Customer(String customerName) {
+        // this.groupUUID = UUID.randomUUID();
+        super(customerName, "customer", "customer_uuid", "customer_name");
     }
-
-    public int getID() {
-        return 0;
-    }
-
 
     private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();
-
-    public Customer() {
-        this.customerUUID = UUID.randomUUID();
-    }
-
-    public String getName() {
-        return customerName;
-    }
 
     public ArrayList<Sale> getSaleList() {
         return saleArrayList;
     }
-
-
-    public void setName(String customerName) {
-        this.customerName = customerName;
-    }
-
-
 }
