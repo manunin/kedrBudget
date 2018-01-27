@@ -3,8 +3,11 @@ package ru.manunin.kedr.core;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import org.slf4j.LoggerFactory;
 import ru.manunin.kedr.db.DbConnector;
 import ru.manunin.kedr.db.model.*;
+
 
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -12,6 +15,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 
 /**
@@ -30,10 +34,14 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static Connection connection = null;
 
+
     public static void main(String[] args) {
 
         String x;
         String y;
+
+        org.slf4j.Logger logger = LoggerFactory.getLogger("ru.manunin.kedr.core.Main");
+
 
         while (true) {
 
@@ -42,7 +50,10 @@ public class Main {
             y = scanner.nextLine();
 
             connection = DbConnector.connect(x, y);
-            if (connection != null) break;
+            if (connection != null) {
+                logger.info("Connection to DB is successful");
+                break;
+            }
 
             try {
                 Thread.sleep(1000);
