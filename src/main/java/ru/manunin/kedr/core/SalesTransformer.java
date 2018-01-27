@@ -66,7 +66,7 @@ public class SalesTransformer {
                             }
                         }
                         if (!saleList.isSaleExists(sale)) {
-                            saleList.add(sale);
+                            saleList.addToListAndToDb(sale);
                         }
 
                     }

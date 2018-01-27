@@ -42,17 +42,22 @@ public class SalesList<T extends Sale> extends ArrayList<Sale> {
     public boolean isSaleExists(Sale saleFromExcel) {
 
         for (Sale saleFromDb : this) {
-//            System.out.println(saleFromDb.getDate() + " " + saleFromDb.getSum() + " " + saleFromDb.getCustomerId() + "" + saleFromDb.getGroupId());
-//            System.out.println(saleFromExcel.getDate() + " " + saleFromExcel.getSum() + " " + saleFromExcel.getCustomerId() + "" + saleFromExcel.getGroupId());
-            // TODO: 13.01.2018 Realize the way to compare of two sales
+
             if (saleFromDb.getDate().equals(saleFromExcel.getDate())
                     && saleFromDb.getSum().equals(saleFromExcel.getSum())
                     && saleFromDb.getCustomerId() == saleFromExcel.getCustomerId()
                     && saleFromDb.getGroupId() == saleFromExcel.getGroupId()) {
                 return true;
             }
+
         }
         return false;
+    }
+
+    public void addToListAndToDb(Sale sale){
+        this.add(sale);
+        sale.insert(DbConnector.connection);
+        System.out.println(sale.getDate()+" "+sale.getSum()+" "+sale.getGroupId()+" "+sale.getCustomerId());
     }
 
 }

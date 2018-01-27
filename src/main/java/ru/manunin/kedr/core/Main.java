@@ -35,7 +35,6 @@ public class Main {
         String x;
         String y;
 
-
         while (true) {
 
             System.out.println("Input connection data");
@@ -72,36 +71,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //print all sales
-//        if (sales.size() > 0) {
-//            for (Sale sale : sales) {
-//                System.out.println("Продажа " + sale.getDate() + '\t' + customers.getById(sale.getCustomerId()).getName() + '\t' + sale.getSum());
-//            }
-//        } else {
-//
-//            System.out.println("Errors've been detected  ");
-//            System.out.println("Test");
-//
-//        }
-//
-        for (Sale sale : sales) {
-            sale.insert(DbConnector.connection);
-        }
-
-        //print sales by group
-
-//        for (Account account : accounts) {
-//
-//            System.out.println("Счет:" + '\t' + account.getName());
-//
-//            for (Sale sale : account.getSaleList()) {
-//
-//                System.out.println("\t\t" + "Продажа " + sale.getDate() + '\t' + customers.getById(sale.getCustomerId()).getName() + '\t' + sale.getSum());
-//
-//            }
-//
-//        }
 
         DbConnector.close();
 
