@@ -1,5 +1,8 @@
 package ru.manunin.kedr.db;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,7 +16,7 @@ public class DbConnector {
     private static String host = "localhost";
     private static String port = "3306";
     private static String dbName = "kedrbudget";
-
+    private static Logger logger = LoggerFactory.getLogger("ru.manunin.kedr.db.DbConnector");
 
     public static Connection connection;
 
@@ -22,8 +25,7 @@ public class DbConnector {
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
         } catch (SQLException e) {
-            System.err.printf("Error of driver registration " + e.getMessage());
-            System.err.printf("Error code " + e.getErrorCode());
+            logger.error("Error of driver registration " + e.getMessage());
         }
     }
 
@@ -35,8 +37,7 @@ public class DbConnector {
             driverRegister();
             connection = DriverManager.getConnection(url, login, pass);
         } catch (SQLException e) {
-            System.err.printf("Error of connecting " + e.getMessage());
-            System.err.printf("Error code " + e.getErrorCode());
+            logger.error("Error of connecting " + e.getMessage());
         }
 
         return connection;
@@ -47,8 +48,7 @@ public class DbConnector {
         try {
             connection.close();
         } catch (SQLException e) {
-            System.err.printf("Error of connection closing " + e.getMessage());
-            System.err.printf("Error code " + e.getErrorCode());
+            logger.error("Error of connection closing " + e.getMessage());
         }
 
     }

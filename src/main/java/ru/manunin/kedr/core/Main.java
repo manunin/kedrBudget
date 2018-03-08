@@ -9,13 +9,12 @@ import ru.manunin.kedr.db.DbConnector;
 import ru.manunin.kedr.db.model.*;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 
 /**
@@ -23,16 +22,23 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-    public static FileReader fileReader;
+    private static final String C_WORK_BUDGET_XLSX = "c:/work/Budget.xlsx";
+    private static FileReader fileReader;
     private static FileInputStream fileInputStream;
     private static Workbook workbook;
-    private static SalesList<Sale> sales = null;
+    private static SalesList sales = null;
     private static BudgetObjectListTemp<Account> accounts = null;
     private static BudgetObjectListTemp<Customer> customers = null;
     private static BudgetObjectListTemp<Place> places = null;
     private static BudgetObjectListTemp<Group> groups = null;
+    private static SalesList salesFromFile = null;
+    private static SalesList salesFromDB = null;
+    private static SalesList salesToAdd = null;
     private static Scanner scanner = new Scanner(System.in);
     private static Connection connection = null;
+    private static int rowInserted = 0;
+    private static int rowNotInserted = 0;
+    private static int rowInFile = 0;
 
 
     public static void main(String[] args) {
@@ -42,6 +48,7 @@ public class Main {
 
         org.slf4j.Logger logger = LoggerFactory.getLogger("ru.manunin.kedr.core.Main");
 
+        Property.init();
 
         while (true) {
 
@@ -55,35 +62,67 @@ public class Main {
                 break;
             }
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
 
+        //TODO Create Factories
         accounts = new BudgetObjectListTemp<Account>("account", Account.class);
         customers = new BudgetObjectListTemp<Customer>("customer", Customer.class);
         places = new BudgetObjectListTemp<Place>("place", Place.class);
         groups = new BudgetObjectListTemp<Group>("groupTable", Group.class);
 
 
+        salesFromDB = SalesList.salesDbFactory();
         try {
-            fileInputStream = new FileInputStream("c:/work/Budget.xlsx");
-            workbook = new XSSFWorkbook(fileInputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Property.init();
-
-        try {
-            sales = SalesTransformer.tranfer(workbook, accounts, customers, groups, places);
+            salesFromFile = SalesList.salesFileFactory(new File(C_WORK_BUDGET_XLSX), accounts, customers, groups, places);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        salesToAdd = new SalesList();
+
+
+        for (Sale saleFile : salesFromFile) {
+            if (!salesFromDB.isSaleExists(saleFile)) {
+                salesToAdd.add(saleFile);
+                saleFile.insert(connection);
+                logger.info("Added the sale: " + saleFile.getDate() + " " + saleFile.getSum()
+                        + " " + accounts.getById(saleFile.getAccountId()).getName()
+                        + " " + places.getById(saleFile.getPlaceId()).getName()
+                        + " " + groups.getById(saleFile.getGroupId()).getName()
+                        + " " + saleFile.getNotes());
+                rowInserted++;
+            } else {
+                rowNotInserted++;
+            }
+        }
+
+
+        logger.info(String.format("Uploading has been performed: row in file - %d, updated row - %d, not - %d",
+                salesFromFile.size(), rowInserted, rowNotInserted));
+
+//
+//        try {
+//            fileInputStream = new FileInputStream("c:/work/Budget.xlsx");
+//            workbook = new XSSFWorkbook(fileInputStream);
+//        } catch (IOException e) {
+//            logger.error("Error of file proccessing " + e.getMessage());
+//            System.exit(1);
+//        }
+//
+//        Property.init();
+//
+//        try {
+//            sales = SalesTransformer.DoTransform(workbook, accounts, customers, groups, places);
+//            logger.info(String.format("Uploading has been performed: row in file - %d, updated row - %d, not - %d", SalesTransformer.getRowInFile(), SalesTransformer.getRowInserted(), SalesTransformer.getRowNotInserted()));
+//        } catch (Exception e) {
+//            logger.error("Error of transfarmation " + e.getMessage());
+//            System.exit(1);
+//        }
+
+
+//        Test.;
 
         DbConnector.close();
+        logger.info("DB connection is closed");
 
     }
 

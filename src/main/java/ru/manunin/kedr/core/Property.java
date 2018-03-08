@@ -1,6 +1,8 @@
 package ru.manunin.kedr.core;
 
 import jdk.nashorn.internal.ir.LiteralNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,9 +18,11 @@ public class Property {
 
     private static BufferedReader bufferedReader;
     private static HashMap<String, String> propertyMap = new HashMap<String, String>();
+    private static Logger logger = LoggerFactory.getLogger("ru.manunin.kedr.core.Property");
 
-    public static void init() {
-        String value = null;
+
+    static void init() {
+        String value;
 
         try {
             bufferedReader = new BufferedReader(new FileReader("settings.properties"));
@@ -31,9 +35,9 @@ public class Property {
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error("File not found: " + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("File proccessing error:" + e.getMessage());
         }
     }
 

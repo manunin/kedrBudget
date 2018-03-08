@@ -1,5 +1,7 @@
 package ru.manunin.kedr.db.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.manunin.kedr.db.DbConnector;
 
 import java.sql.Connection;
@@ -20,7 +22,9 @@ abstract public class BudgetObjectTamplate {
     private UUID uuid;
     private ArrayList<Sale> saleArrayList = new ArrayList<Sale>();
 
-    public BudgetObjectTamplate(String name, String tableName, String uuidColumn, String nameColumn) {
+    private Logger logger = LoggerFactory.getLogger("ru.manunin.kedr.db.model.BudgetObjectTamplate");
+
+    protected BudgetObjectTamplate(String name, String tableName, String uuidColumn, String nameColumn) {
 
         this.name = name;
         this.uuid = UUID.randomUUID();
@@ -30,7 +34,7 @@ abstract public class BudgetObjectTamplate {
         insert(DbConnector.connection);
     }
 
-    public BudgetObjectTamplate(Integer id, UUID uuid, String name) {
+    protected BudgetObjectTamplate(Integer id, UUID uuid, String name) {
 
         this.id = id;
         this.name = name;
@@ -40,11 +44,11 @@ abstract public class BudgetObjectTamplate {
         this.NAME_COLUMN = null;
     }
 
-    public ArrayList<Sale> getSaleList() {
+    protected ArrayList<Sale> getSaleList() {
         return saleArrayList;
     }
 
-    public int getId() {
+    protected int getId() {
         return id;
     }
 
@@ -71,7 +75,8 @@ abstract public class BudgetObjectTamplate {
 
 
     private void insert(Connection connection) {
-
+        //TODO Add batch update
+        //TODO Add reject update
         PreparedStatement stat = null;
         String stringUUID = uuid.toString();//.replaceAll("-", "");
         String insertSql = "INSERT INTO " + TABLE_NAME + " (" +
@@ -85,14 +90,12 @@ abstract public class BudgetObjectTamplate {
             stat.setString(2, name);
             stat.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error of inserting " + e.getMessage());
-            System.err.println("Error code " + e.getErrorCode());
+            logger.error("Error of inserting " + e.getMessage());
         } finally {
             try {
                 stat.close();
             } catch (SQLException e) {
-                System.err.println("Error of closing statement " + e.getMessage());
-                System.err.println("Error code " + e.getErrorCode());
+                logger.error("Error of closing statement " + e.getMessage());
             }
         }
         id = selectId(connection, uuid);
@@ -112,13 +115,12 @@ abstract public class BudgetObjectTamplate {
             rs.next();
             id = rs.getInt(1);
         } catch (SQLException e) {
-            System.err.println("Error of selecting " + e.getMessage());
-            System.err.println("Error code " + e.getErrorCode());
+            logger.error("Error of selecting " + e.getMessage());
         } finally {
             try {
                 stmt.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error("Error of closing statement " + e.getMessage());
             }
         }
         return id;

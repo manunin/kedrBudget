@@ -1,5 +1,7 @@
 package ru.manunin.kedr.db.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.manunin.kedr.db.DbConnector;
 
 import java.lang.reflect.InvocationTargetException;
@@ -11,6 +13,11 @@ import java.util.UUID;
 
 public class BudgetObjectListTemp<T extends BudgetObjectTamplate> extends ArrayList<T> {
 
+    private Logger logger = LoggerFactory.getLogger("ru.manunin.kedr.db.model.BudgetObjectListTemp");
+
+    public static void test(){
+        System.out.println("sdfsdf");
+    }
 
     public BudgetObjectListTemp(String tableName, Class<T> cls) {
         super();
@@ -21,25 +28,26 @@ public class BudgetObjectListTemp<T extends BudgetObjectTamplate> extends ArrayL
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                T temp = cls.getDeclaredConstructor(Integer.class, UUID.class, String.class).newInstance(rs.getInt(1), UUID.fromString(rs.getString(2)), rs.getString(3));
+                T temp = cls.getDeclaredConstructor(Integer.class, UUID.class, String.class).newInstance(rs.getInt(1),
+                        UUID.fromString(rs.getString(2)), rs.getString(3));
                 this.add(temp);
             }
         } catch (SQLException e) {
-            System.err.println("Error of closing statement " + e.getMessage());
-            System.err.println("Error code " + e.getErrorCode());
+            //TODO Add proccesing of empty result set
+            logger.error("Error of selecting statement " + e.getMessage());
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
     }
 
-    public T getByName(String name) {
+    protected T getByName(String name) {
         for (T element : this) {
             if (element.getName().equals(name))
                 return element;
@@ -55,7 +63,7 @@ public class BudgetObjectListTemp<T extends BudgetObjectTamplate> extends ArrayL
         return null;
     }
 
-    public void addSaleToListElement(String elementName, Sale sale, Class<T> cls) throws Exception {
+    protected void addSaleToListElement(String elementName, Sale sale, Class<T> cls) throws Exception {
         if (this.getByName(elementName) == null) {
             T temp = cls.getDeclaredConstructor(String.class).newInstance(elementName);
             temp.getSaleList().add(sale);

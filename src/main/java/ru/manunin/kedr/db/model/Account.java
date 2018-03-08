@@ -15,8 +15,12 @@ import java.util.UUID;
 public class Account extends BudgetObjectTamplate {
 
 
+    private static final String ACCOUNT = "account";
+    private static final String ACCOUNT_UUID = "account_uuid";
+    private static final String ACCOUNT_NAME = "account_name";
+
     public Account(String accountName) {
-        super(accountName, "account", "account_uuid", "account_name");
+        super(accountName, ACCOUNT, ACCOUNT_UUID, ACCOUNT_NAME);
     }
 
     public Account(Integer id, UUID uuid, String name){

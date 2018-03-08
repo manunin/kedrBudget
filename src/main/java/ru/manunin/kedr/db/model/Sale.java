@@ -1,5 +1,8 @@
 package ru.manunin.kedr.db.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -21,7 +24,6 @@ public class Sale {
     private final String NOTES = "notes";
     private final String CUSTOMER_ID = "customer_id";
 
-
     private int id;
     private Date date;
     private Double sum;
@@ -30,17 +32,19 @@ public class Sale {
     private int accountId;
     private int customerId;
 
+    private Logger logger = LoggerFactory.getLogger("ru.manunin.kedr.db.model.Sale");
+
     public int getAccountId() {
         return accountId;
     }
 
 
-    public Sale() {
+    protected Sale() {
         this.saleUUID = UUID.randomUUID();
     }
 
 
-    public Sale(int id, UUID saleUUID, Date date, Double sum, int accountId, int groupId, int placeId, String notes, int customerId) {
+    protected Sale(int id, UUID saleUUID, Date date, Double sum, int accountId, int groupId, int placeId, String notes, int customerId) {
         this.id = id;
         this.date = date;
         this.sum = sum;
@@ -52,15 +56,15 @@ public class Sale {
         this.placeId = placeId;
     }
 
-    public void setAccountId(int accountId) {
+    protected void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 
-    public int getCustomerId() {
+    protected int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    protected void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 
@@ -68,7 +72,7 @@ public class Sale {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    protected void setGroupId(int groupId) {
         this.groupId = groupId;
     }
 
@@ -76,7 +80,7 @@ public class Sale {
         return placeId;
     }
 
-    public void setPlaceId(int placeId) {
+    protected void setPlaceId(int placeId) {
         this.placeId = placeId;
     }
 
@@ -92,7 +96,7 @@ public class Sale {
         return date;
     }
 
-    public void setDate(Date date) {
+    protected void setDate(Date date) {
         this.date = date;
     }
 
@@ -108,7 +112,7 @@ public class Sale {
         return notes;
     }
 
-    public void setNotes(String notes) {
+    protected void setNotes(String notes) {
         this.notes = notes;
     }
 
@@ -130,8 +134,8 @@ public class Sale {
         try {
             stat = connection.prepareStatement(insertSql);
             stat.setString(1, stringUUID);
-            stat.setDate(2, new java.sql.Date(date.getTime()));
-            stat.setDouble(3, sum);
+            stat.setDate(2, new java.sql.Date(this.date.getTime()));
+            stat.setDouble(3, this.sum);
             stat.setInt(4, this.accountId);
             stat.setInt(5, this.groupId);
             stat.setInt(6, this.placeId);
@@ -139,14 +143,12 @@ public class Sale {
             stat.setInt(8, this.customerId);
             stat.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error of updating " + e.getMessage());
-            System.err.println("Error code " + e.getErrorCode());
+            logger.error("Error of updating " + e.getMessage());
         } finally {
             try {
                 stat.close();
             } catch (SQLException e) {
-                System.err.println("Error of closing statement " + e.getMessage());
-                System.err.println("Error code " + e.getErrorCode());
+                logger.error("Error of closing statement " + e.getMessage());
             }
         }
 
