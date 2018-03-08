@@ -11,9 +11,13 @@ import java.util.UUID;
 public class Group extends BudgetObjectTamplate {
 
 
+    public static final String GROUP_TABLE = "groupTable";
+    public static final String GROUP_UUID = "group_uuid";
+    public static final String GROUP_NAME = "group_name";
+
     public Group(String groupName) {
        // this.groupUUID = UUID.randomUUID();
-        super(groupName, "groupTable", "group_uuid", "group_name");
+        super(groupName, GROUP_TABLE, GROUP_UUID, GROUP_NAME);
     }
 
     public Group(Integer id, UUID uuid, String name){
