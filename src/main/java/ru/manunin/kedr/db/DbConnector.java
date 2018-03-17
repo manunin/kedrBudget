@@ -36,6 +36,7 @@ public class DbConnector {
         try {
             driverRegister();
             connection = DriverManager.getConnection(url, login, pass);
+            connection.setAutoCommit(false);
         } catch (SQLException e) {
             logger.error("Error of connecting " + e.getMessage());
         }

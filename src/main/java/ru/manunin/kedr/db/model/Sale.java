@@ -142,16 +142,22 @@ public class Sale {
             stat.setString(7, this.notes);
             stat.setInt(8, this.customerId);
             stat.executeUpdate();
+            connection.commit();
+            connection.rollback();
         } catch (SQLException e) {
             logger.error("Error of updating " + e.getMessage());
-        } finally {
             try {
-                stat.close();
-            } catch (SQLException e) {
-                logger.error("Error of closing statement " + e.getMessage());
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            } finally {
+                try {
+                    stat.close();
+                } catch (SQLException e2) {
+                    logger.error("Error of closing statement " + e2.getMessage());
+                }
             }
+
         }
-
     }
-
 }

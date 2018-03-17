@@ -73,7 +73,6 @@ abstract public class BudgetObjectTamplate {
     }
 
 
-
     private void insert(Connection connection) {
         //TODO Add batch update
         //TODO Add reject update
@@ -89,8 +88,16 @@ abstract public class BudgetObjectTamplate {
             stat.setString(1, stringUUID);
             stat.setString(2, name);
             stat.executeUpdate();
+            connection.commit();
+            connection.rollback();
+            logger.info("Added budget object %s, name - %s:", this.getClass().toString(), name);
         } catch (SQLException e) {
             logger.error("Error of inserting " + e.getMessage());
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                logger.error("Error of rollbacking " + e1.getMessage());
+            }
         } finally {
             try {
                 stat.close();

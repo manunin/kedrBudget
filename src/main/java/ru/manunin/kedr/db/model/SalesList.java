@@ -19,13 +19,23 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 public class SalesList extends ArrayList<Sale> {
 
-    private final static String TABLE_NAME = "sale";
+    private final static String TABLE_NAME_SELECT = "sale";
     private static Logger logger = LoggerFactory.getLogger("ru.manunin.kedr.db.model.SalesList");
     private static final String SALES_PAGES = "Sales_Page";
+    private final String TABLE_NAME = "sale";
+    private final String UUID_COLUMN = "sale_uuid";
+    private final String SALE_DATE = "sale_date";
+    private final String AMOUND = "amount";
+    private final String ACCOUNT_ID = "account_id";
+    private final String GROUP_ID = "group_id";
+    private final String PLACE_ID = "place_id";
+    private final String NOTES = "notes";
+    private final String CUSTOMER_ID = "customer_id";
 
     //TODO Change constructor to static method - factory
     //TODO Add two different factories for getting sales from DB and for getting sales from File
@@ -40,7 +50,7 @@ public class SalesList extends ArrayList<Sale> {
         SalesList salesList = new SalesList();
         PreparedStatement ps;
         try {
-            String selectSQL = "SELECT * from " + TABLE_NAME + ";";
+            String selectSQL = "SELECT * from " + TABLE_NAME_SELECT + ";";
             ps = DbConnector.connection.prepareStatement(selectSQL);
             ResultSet rs = ps.executeQuery();
 
@@ -150,13 +160,55 @@ public class SalesList extends ArrayList<Sale> {
         return false;
     }
 
-    public void addSalesToDB() {
-//        this.add(sale);
-        for (Sale sale : this) {
-            sale.insert(DbConnector.connection);
+    public int addSalesToDB() {
+        int insertedRow = 0;
+        PreparedStatement stat = null;
+        String insertSql = "INSERT INTO " + TABLE_NAME + "(" +
+                UUID_COLUMN +
+                "," + SALE_DATE +
+                "," + AMOUND +
+                "," + ACCOUNT_ID +
+                "," + GROUP_ID +
+                "," + PLACE_ID +
+                "," + NOTES +
+                "," + CUSTOMER_ID +
+                ") values(?,?,?,?,?,?,?,?);";
+        try {
+            stat = DbConnector.connection.prepareStatement(insertSql);
+            for (Sale sale : this) {
+                String stringUUID = sale.getSaleUUID().toString();//.replaceAll("-", "");
+                stat.setString(1, stringUUID);
+                stat.setDate(2, new java.sql.Date(sale.getDate().getTime()));
+                stat.setDouble(3, sale.getSum());
+                stat.setInt(4, sale.getAccountId());
+                stat.setInt(5, sale.getGroupId());
+                stat.setInt(6, sale.getPlaceId());
+                stat.setString(7, sale.getNotes());
+                stat.setInt(8, sale.getCustomerId());
+                stat.addBatch();
+                insertedRow++;
+            }
+
+            int[] recordsAffected = stat.executeBatch();
+            DbConnector.connection.commit();
+            DbConnector.connection.rollback();
+        } catch (SQLException e) {
+            logger.error("Error of updating " + e.getMessage());
+            try {
+                DbConnector.connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            } finally {
+                try {
+                    stat.close();
+                } catch (SQLException e2) {
+                    logger.error("Error of closing statement " + e2.getMessage());
+                }
+            }
+
         }
 
-//        System.out.println(sale.getDate()+" "+sale.getSum()+" "+sale.getGroupId()+" "+sale.getCustomerId());
+    return insertedRow;
     }
 
 }

@@ -14,7 +14,9 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -79,25 +81,37 @@ public class Main {
         }
         salesToAdd = new SalesList();
 
-
         for (Sale saleFile : salesFromFile) {
             if (!salesFromDB.isSaleExists(saleFile)) {
                 salesToAdd.add(saleFile);
-                saleFile.insert(connection);
-                logger.info("Added the sale: " + saleFile.getDate() + " " + saleFile.getSum()
-                        + " " + accounts.getById(saleFile.getAccountId()).getName()
-                        + " " + places.getById(saleFile.getPlaceId()).getName()
-                        + " " + groups.getById(saleFile.getGroupId()).getName()
-                        + " " + saleFile.getNotes());
-                rowInserted++;
-            } else {
-                rowNotInserted++;
             }
         }
 
+        long start = System.nanoTime();
+        rowInserted = salesToAdd.addSalesToDB();
 
-        logger.info(String.format("Uploading has been performed: row in file - %d, updated row - %d, not - %d",
-                salesFromFile.size(), rowInserted, rowNotInserted));
+
+        //        for (Sale saleFile : salesFromFile) {
+//            if (!salesFromDB.isSaleExists(saleFile)) {
+//                salesToAdd.add(saleFile);
+//
+//                saleFile.insert(connection);
+//                logger.info("Added the sale: " + saleFile.getDate() + " " + saleFile.getSum()
+//                        + " " + accounts.getById(saleFile.getAccountId()).getName()
+//                        + " " + places.getById(saleFile.getPlaceId()).getName()
+//                        + " " + groups.getById(saleFile.getGroupId()).getName()
+//                        + " " + saleFile.getNotes());
+//                rowInserted++;
+//            } else {
+//                rowNotInserted++;
+//            }
+//        }
+        long elapsedTime = System.nanoTime() - start;
+        logger.info(String.format("Elapsed time for sales insertion is %s sec.", String.valueOf(TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS))));
+
+
+        logger.info(String.format("Uploading has been performed: row in file - %d, updated row - %d ",
+                salesFromFile.size(), rowInserted));
 
 //
 //        try {

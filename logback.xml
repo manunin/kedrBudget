@@ -17,6 +17,10 @@
     </appender>
 
     <logger name="ru.manunin.kedr.core">
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <logger name="ru.manunin.kedr.db">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </logger>
