@@ -74,8 +74,7 @@ abstract public class BudgetObjectTamplate {
 
 
     private void insert(Connection connection) {
-        //TODO Add batch update
-        //TODO Add reject update
+
         PreparedStatement stat = null;
         String stringUUID = uuid.toString();//.replaceAll("-", "");
         String insertSql = "INSERT INTO " + TABLE_NAME + " (" +
@@ -119,8 +118,9 @@ abstract public class BudgetObjectTamplate {
         try {
             stmt = connection.prepareStatement(selectString);
             rs = stmt.executeQuery();
-            rs.next();
-            id = rs.getInt(1);
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
         } catch (SQLException e) {
             logger.error("Error of selecting " + e.getMessage());
         } finally {

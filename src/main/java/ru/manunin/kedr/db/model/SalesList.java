@@ -37,13 +37,9 @@ public class SalesList extends ArrayList<Sale> {
     private final String NOTES = "notes";
     private final String CUSTOMER_ID = "customer_id";
 
-    //TODO Change constructor to static method - factory
-    //TODO Add two different factories for getting sales from DB and for getting sales from File
 
 
-//    public SalesList() {
-//        super();
-//    }
+
 
     public static SalesList salesDbFactory() {
 

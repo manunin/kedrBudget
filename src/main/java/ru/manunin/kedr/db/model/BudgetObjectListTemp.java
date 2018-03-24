@@ -15,10 +15,6 @@ public class BudgetObjectListTemp<T extends BudgetObjectTamplate> extends ArrayL
 
     private Logger logger = LoggerFactory.getLogger("ru.manunin.kedr.db.model.BudgetObjectListTemp");
 
-    public static void test(){
-        System.out.println("sdfsdf");
-    }
-
     public BudgetObjectListTemp(String tableName, Class<T> cls) {
         super();
         PreparedStatement ps;
@@ -33,7 +29,6 @@ public class BudgetObjectListTemp<T extends BudgetObjectTamplate> extends ArrayL
                 this.add(temp);
             }
         } catch (SQLException e) {
-            //TODO Add proccesing of empty result set
             logger.error("Error of selecting statement " + e.getMessage());
         } catch (IllegalAccessException e) {
             logger.error(e.getMessage());

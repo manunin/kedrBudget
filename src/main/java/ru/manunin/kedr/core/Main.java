@@ -66,7 +66,7 @@ public class Main {
 
         }
 
-        //TODO Create Factories
+
         accounts = new BudgetObjectListTemp<Account>("account", Account.class);
         customers = new BudgetObjectListTemp<Customer>("customer", Customer.class);
         places = new BudgetObjectListTemp<Place>("place", Place.class);
